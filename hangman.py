@@ -3,11 +3,13 @@ from hangman_words import words
 import string
 
 
+# function to get a random word for the hangman game
 def get_valid_word(words):
     word = random.choice(words)  # randomly chooses something from the list
+
+    # while the selected word have '-' or ' ', word will random
     while '-' in word or ' ' in word:
         word = random.choice(words)
-
     return word.upper()
 
 
@@ -19,28 +21,32 @@ def hangman():
 
     lives = 7
 
-    # getting user input
+    # getting user input if letters in random word is larger than 0 and live is more than 0
+    # number of letter > 0
+    # number of lives > 01111
+
+
     while len(word_letters) > 0 and lives > 0:
         # letters used
-        # ' '.join(['a', 'b', 'cd']) --> 'a b cd'
+        # ' '.join(['a', 'b', 'c']) --> 'a b c'
         print('You have', lives, 'lives left and you have used these letters: ', ' '.join(used_letters))
 
         # what current word is (ie W - R D)
         word_list = [letter if letter in used_letters else '-' for letter in word]
         print('Current word: ', ' '.join(word_list))
 
-        user_letter = input('Guess a letter: ').upper()
-        if user_letter in alphabet - used_letters:
-            used_letters.add(user_letter)
-            if user_letter in word_letters:
-                word_letters.remove(user_letter)
+        user_guessed_letter = input('Guess a letter: ').upper()
+        if user_guessed_letter in alphabet - used_letters:
+            used_letters.add(user_guessed_letter)
+            if user_guessed_letter in word_letters:
+                word_letters.remove(user_guessed_letter)
                 print('')
 
             else:
                 lives = lives - 1  # takes away a life if wrong
-                print('\nYour letter,', user_letter, 'is not in the word.')
+                print('\nYour letter,', user_guessed_letter, 'is not in the word.')
 
-        elif user_letter in used_letters:
+        elif user_guessed_letter in used_letters:
             print('\nYou have already used that letter. Guess another letter.')
 
         else:
